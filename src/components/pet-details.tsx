@@ -37,6 +37,7 @@ type Props = {
 
 function TopBar({ pet }: Props) {
   const { handleCheckoutPet } = usePetContext();
+
   return (
     <div className="flex items-center bg-white px-8 py-5 border-b border-light">
       <Image
@@ -52,7 +53,9 @@ function TopBar({ pet }: Props) {
         <PetButton actionType="edit">Edit</PetButton>
         <PetButton
           actionType="checkout"
-          onClick={() => handleCheckoutPet(pet.id)}
+          onClick={async () => {
+            await handleCheckoutPet(pet.id);
+          }}
         >
           Checkout
         </PetButton>

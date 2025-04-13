@@ -4,6 +4,7 @@ import BackgroundPattern from "@/components/background-pattern";
 import { Pet } from "@/lib/types";
 import PetContextProvider from "../contexts/pet-context-provider";
 import SearchContextProvider from "../contexts/search-context-provider";
+import { Toaster } from "sonner";
 import prisma from "@/lib/db";
 
 export default async function Layout({
@@ -22,6 +23,8 @@ export default async function Layout({
         </SearchContextProvider>
         <AppFooter />
       </div>
+
+      <Toaster position="top-right" />
     </>
   );
 }
