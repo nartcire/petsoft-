@@ -2,6 +2,7 @@
 
 import { Pet } from "@prisma/client";
 import { PetEssentials } from "@/lib/types";
+import { petFormSchema } from "@/lib/validations";
 import prisma from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { sleep } from "@/lib/utils";
@@ -9,9 +10,17 @@ import { sleep } from "@/lib/utils";
 export async function addPet(petData: PetEssentials) {
   await sleep(1000);
 
+  const validatedPet = petFormSchema.safeParse(petData);
+
+  if (!validatedPet.success) {
+    return {
+      message: "Invalid pet data.",
+    };
+  }
+
   try {
     await prisma.pet.create({
-      data: petData,
+      data: validatedPet.data,
     });
   } catch (error) {
     return {
@@ -25,12 +34,20 @@ export async function addPet(petData: PetEssentials) {
 export async function editPet(petId: Pet["id"], petData: PetEssentials) {
   await sleep(1000);
 
+  const validatedPet = petFormSchema.safeParse(petData);
+
+  if (!validatedPet.success) {
+    return {
+      message: "Invalid pet data.",
+    };
+  }
+
   try {
     await prisma.pet.update({
       where: {
         id: petId,
       },
-      data: petData,
+      data: validatedPet.data,
     });
   } catch (error) {
     return {
