@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { Pet } from "@/lib/types";
+import { Pet } from "@prisma/client";
 import PetButton from "./pet-button";
 import { usePetContext } from "@/lib/hooks";
 
-export default function selectedPet() {
+export default function SelectedPet() {
   const { selectedPet } = usePetContext();
 
   return (
