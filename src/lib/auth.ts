@@ -38,10 +38,11 @@ const config = {
     }),
   ],
   callbacks: {
-    authorized: ({ request }) => {
+    authorized: ({ auth, request }) => {
+      const isLoggedIn = Boolean(auth?.user);
       const isTryingToAccessApp = request.nextUrl.pathname.includes("/app");
 
-      if (isTryingToAccessApp) {
+      if (isTryingToAccessApp && !isLoggedIn) {
         return false;
       }
 
