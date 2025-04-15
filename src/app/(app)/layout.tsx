@@ -1,3 +1,5 @@
+import { checkAuth, getPetsByUserId } from "@/lib/server-utils";
+
 import AppFooter from "@/components/app-footer";
 import AppHeader from "@/components/app-header";
 import BackgroundPattern from "@/components/background-pattern";
@@ -13,16 +15,9 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  if (!session?.user) {
-    redirect("/login");
-  }
+  const session = await checkAuth();
 
-  const data = await prisma.pet.findMany({
-    where: {
-      userId: session.user.id,
-    },
-  });
+  const data = await getPetsByUserId(session.user.id);
   return (
     <>
       <BackgroundPattern />

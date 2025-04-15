@@ -1,6 +1,7 @@
 "use server";
 
 import { auth, signIn, signOut } from "@/lib/auth";
+import { checkAuth, getPetById } from "@/lib/server-utils";
 import { petFormSchema, petIdSchema } from "@/lib/validations";
 
 import bcrypt from "bcryptjs";
@@ -38,10 +39,7 @@ export async function logOut() {
 export async function addPet(petData: unknown) {
   await sleep(1000);
 
-  const session = await auth();
-  if (!session?.user) {
-    redirect("/login");
-  }
+  const session = await checkAuth();
 
   const validatedPet = petFormSchema.safeParse(petData);
 
@@ -75,10 +73,7 @@ export async function editPet(petId: unknown, petData: unknown) {
   await sleep(1000);
 
   // Authentication
-  const session = await auth();
-  if (!session?.user) {
-    redirect("/login");
-  }
+  const session = await checkAuth();
 
   const validatedPet = petFormSchema.safeParse(petData);
   const validatedPetId = petIdSchema.safeParse(petId);
@@ -94,11 +89,7 @@ export async function editPet(petId: unknown, petData: unknown) {
   }
 
   // Authorization
-  const pet = await prisma.pet.findUnique({
-    where: {
-      id: validatedPetId.data,
-    },
-  });
+  const pet = await getPetById(validatedPetId.data);
 
   if (!pet) {
     return {
@@ -127,10 +118,7 @@ export async function editPet(petId: unknown, petData: unknown) {
 
 export async function checkoutPet(petId: unknown) {
   // authentication check
-  const session = await auth();
-  if (!session?.user) {
-    redirect("/login");
-  }
+  const session = await checkAuth();
 
   const validatedPetId = petIdSchema.safeParse(petId);
   if (!validatedPetId.success) {
@@ -140,11 +128,7 @@ export async function checkoutPet(petId: unknown) {
   }
 
   // authorization check
-  const pet = await prisma.pet.findUnique({
-    where: {
-      id: validatedPetId.data,
-    },
-  });
+  const pet = await getPetById(validatedPetId.data);
 
   if (!pet) {
     return {
