@@ -2,6 +2,7 @@ import "../styles/globals.css";
 
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} text-sm text-zinc-900 bg-[#E5E8EC] min-h-screen`}
       >
-        {children}
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );
