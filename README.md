@@ -34,6 +34,10 @@ This is the second project that I've done with NextJS. This is the final project
 
 https://github.com/user-attachments/assets/d5ed3a72-39c1-4e50-be14-3149e838676a
 
+## Demo
+
+You can interact with this project through this URL: https://petsoft-8zjvt9umh-eric-trans-projects-35e47bc0.vercel.app/. Please do not put sensitive information such as a real password or credit card number when interacting with this project. Please use "4242 4242 4242 4242" as the card number if you want to "pay" for petsoft on the stripe checkout page.
+
 ## Tech Stack
 
 NextJS, Typescript, TailwindCSS, ReactJS, Vercel, Postgress, Prism
